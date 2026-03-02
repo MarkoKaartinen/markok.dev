@@ -1,0 +1,83 @@
+<article class="mt-6 flex max-w-prose flex-row">
+  {{- $images := $.Resources.ByType "image" }}
+  {{- $thumbnail := $images.GetMatch (.Params.thumbnail | default "*thumb*") }}
+  {{- $feature := $images.GetMatch (.Params.feature | default "*feature*") | default $thumbnail }}
+  {{- $defaultThumb := "/img/default-thumb.jpg" }}
+  <div class="hidden sm:flex flex-none pe-4 sm:pe-6 ">
+    <a
+      href="{{ with $.Params.externalUrl }}
+        {{ . }}
+      {{ else }}
+        {{ $.Permalink }}
+      {{ end }}"
+      aria-label="{{ $.Title | emojify }}"
+    >
+      {{- if $feature }}
+        <img
+          alt="{{ $.Params.featureAlt | default $.Params.thumbnailAlt | default "" }}"
+          {{ if eq $feature.MediaType.SubType "svg" }}
+            class="w-24 max-w-[6rem] max-h-[4.5rem] rounded-md sm:max-h-[7.5rem] sm:w-40 sm:max-w-[10rem]" src="{{ $feature.Permalink }}"
+          {{ else }}
+            class="w-24 rounded-md sm:w-40" srcset="
+            {{- ($feature.Fill "160x120 smart").Permalink }}
+            160w, {{- ($feature.Fill "320x240 smart").Permalink }} 2x"
+            src="{{ ($feature.Fill "160x120 smart").Permalink }}" width="160" height="120"
+          {{ end }}
+          {{ if $.Site.Params.enableImageLazyLoading | default true }}
+            loading="lazy"
+          {{ end }}
+        />
+      {{- else }}
+        <img
+          alt=""
+          class="w-24 rounded-md sm:w-40"
+          src="{{ $defaultThumb }}"
+          width="160" height="120"
+          {{ if $.Site.Params.enableImageLazyLoading | default true }}
+            loading="lazy"
+          {{ end }}
+        />
+      {{- end }}
+    </a>
+  </div>
+  <div>
+    <h3 class="flex flex-col sm:flex-row sm:items-center text-xl font-semibold">
+      {{ with .Params.externalUrl }}
+        <a
+          class="text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+          href="{{ . }}"
+          target="_blank"
+          rel="external"
+          >{{ $.Title | emojify }}</a
+        >
+      {{ else }}
+        <a
+          class="text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+          href="{{ .Permalink }}"
+          >{{ .Title | emojify }}</a
+        >
+      {{ end }}
+      {{- if or .Params.externalUrl (and .Draft .Site.Params.article.showDraftLabel) }}
+        <div class="article-badges flex items-center gap-1 mt-2 sm:mt-0">
+          {{ if .Params.externalUrl }}
+            <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">External</span>
+          {{ end }}
+          {{ if and .Draft .Site.Params.article.showDraftLabel }}
+            <span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">{{ i18n "article.draft" | emojify }}</span>
+          {{ end }}
+        </div>
+      {{- end }}
+      {{ if templates.Exists "_partials/extend-article-link.html" }}
+        {{ partial "extend-article-link.html" . }}
+      {{ end }}
+    </h3>
+    <div class="text-sm text-neutral-500 dark:text-neutral-400">
+      {{ partial "article-meta.html" . }}
+    </div>
+    {{ if .Params.showSummary | default (.Site.Params.list.showSummary | default false) }}
+      <div class="prose py-1 dark:prose-invert">
+        {{ .Summary | emojify }}
+      </div>
+    {{ end }}
+  </div>
+</article>
