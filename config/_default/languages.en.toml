@@ -4,7 +4,7 @@ languageDirection = "ltr"
 weight = 1
 
 title = "MarkoK.dev"
-# copyright = "Copy, _right?_ :thinking_face:"
+copyright = "&copy; MarkoK.dev"
 
 [params]
   dateFormat = "Mon 2 January 2006"

@@ -41,4 +41,21 @@
 # The footer menu is displayed at the bottom of the page, just before
 # the copyright notice. Configure as per the main menu above.
 
+[[footer]]
+  name = "Mastodon"
+  url = "https://kaartinen.social/@marko"
+  weight = 10
+  [footer.params]
+    rel = "me"
+    target = "_blank"
 
+
+[[footer]]
+  name = "Uses"
+  pageRef = "uses"
+  weight = 20
+
+[[footer]]
+  name = "Now"
+  pageRef = "now"
+  weight = 30
