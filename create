@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  echo "Usage: $0 <type> <title>"
+  echo "  type:  blog | link"
+  echo "  title: e.g. \"Hello World Again\" or \"awesome tunneling\""
+  exit 1
+}
+
+[[ $# -lt 2 ]] && usage
+
+TYPE="$1"
+shift
+TITLE="$*"
+
+# Convert title to slug: lowercase, spaces→hyphens, strip non-alphanumeric (keep hyphens)
+slug() {
+  echo "$1" \
+    | tr '[:upper:]' '[:lower:]' \
+    | sed 's/[^a-z0-9 ]//g' \
+    | sed 's/  */ /g' \
+    | sed 's/^ *//; s/ *$//' \
+    | tr ' ' '-'
+}
+
+SLUG=$(slug "$TITLE")
+
+case "$TYPE" in
+  blog)
+    hugo new "blog/${SLUG}"
+    echo "Created blog post: content/blog/${SLUG}"
+    ;;
+  link)
+    hugo new -k links "links/${SLUG}.md"
+    echo "Created link: content/links/${SLUG}.md"
+    ;;
+  *)
+    echo "Unknown type '${TYPE}'. Use 'blog' or 'link'."
+    usage
+    ;;
+esac
