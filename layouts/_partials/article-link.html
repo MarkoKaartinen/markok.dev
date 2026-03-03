@@ -79,5 +79,10 @@
         {{ .Summary | emojify }}
       </div>
     {{ end }}
+    {{ with .Params.externalUrl }}
+      <div class="text-xs text-neutral-400 dark:text-neutral-500 mt-1 truncate">
+        {{ . }}
+      </div>
+    {{ end }}
   </div>
 </article>
