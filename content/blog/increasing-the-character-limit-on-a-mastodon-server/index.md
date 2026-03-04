@@ -1,7 +1,6 @@
 ---
 title: "Increasing the character limit on a Mastodon server"
-date: 2026-03-04T07:04:49+02:00
-draft: true
+date: 2026-03-04T07:50:49+02:00
 description: "This is mostly a note to myself, but hopefully useful to others too. Here's how to increase the post character limit on a Mastodon server. Bonus: how to increase the number of poll options as well."
 summary: "This is mostly a note to myself, but hopefully useful to others too. Here's how to increase the post character limit on a Mastodon server. Bonus: how to increase the number of poll options as well."
 tags: ["Server", "Mastodon", "Configuration", "Tips"]
