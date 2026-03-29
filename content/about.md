@@ -6,6 +6,8 @@ showReadingTime: false
 showDate: false
 showPagination: false
 showComments: false
+build:
+  list: never
 ---
 Hello and Welcome to my personal english blog. I'am 37 years old web developer / entrepreneur / geek / etc. from Kuopio, Finland.
 

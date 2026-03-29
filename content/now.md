@@ -6,6 +6,8 @@ showReadingTime: false
 showDate: false
 showPagination: false
 showComments: false
+build:
+  list: never
 ---
 {{< badge >}}
 Updated: 2026-03-03

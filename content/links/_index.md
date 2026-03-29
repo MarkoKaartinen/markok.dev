@@ -1,6 +1,6 @@
 ---
 title: "Links"
-description: ""
+description: "Interesting links I've come across."
 cascade:
   - target:
       kind: page
