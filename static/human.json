@@ -1,0 +1,30 @@
+{
+  "version": "0.1.1",
+  "url": "https://markok.dev",
+  "vouches": [
+    {
+      "url": "https://markokaartinen.net",
+      "vouched_at": "2026-03-29"
+    },
+    {
+      "url": "https://saaste.net",
+      "vouched_at": "2026-03-29"
+    },
+    {
+      "url": "https://feuerx.net",
+      "vouched_at": "2026-03-29"
+    },
+    {
+      "url": "https://oranki.net",
+      "vouched_at": "2026-03-29"
+    },
+    {
+      "url": "https://nikopoikulainen.fi",
+      "vouched_at": "2026-03-29"
+    },
+    {
+      "url": "https://samimaatta.fi/",
+      "vouched_at": "2026-03-29"
+    }
+  ]
+}
