@@ -2,7 +2,7 @@
 title: "Links"
 description: ""
 cascade:
-  - _target:
+  - target:
       kind: page
     showEdit: false
     showSummary: true
