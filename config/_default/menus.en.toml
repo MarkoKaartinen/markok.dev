@@ -61,6 +61,11 @@
   weight = 30
 
 [[footer]]
+  name = "AI"
+  pageRef = "ai"
+  weight = 35
+
+[[footer]]
   name = "GitHub"
   url = "https://github.com/MarkoKaartinen/markok.dev"
   weight = 40
