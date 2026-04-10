@@ -26,14 +26,21 @@
     {{ end }}
     {{ range $pages }}
     {{- $link := .Permalink -}}
-    {{- with .Params.externalUrl }}{{- $link = . -}}{{- end }}
+    {{- $externalUrl := .Params.externalUrl -}}
+    {{- $summary := .Summary -}}
+    {{- with $externalUrl }}{{- $link = . -}}{{- end }}
     <item>
       <title>{{ .Title }}</title>
       <link>{{ $link }}</link>
       <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
       <guid>{{ $link }}</guid>
       <description>{{ .Summary | html }}</description>
-      {{ with .Content }}{{ printf "<content:encoded><![CDATA[%s]]></content:encoded>" . | safeHTML }}{{ end }}
+      {{- $content := .Content -}}
+      {{- with $externalUrl -}}
+        {{- $notice := printf "<p><a href=\"%s\">%s</a></p>" . . -}}
+        {{- $content = print "<p>" $summary "</p>" $notice -}}
+      {{- end -}}
+      {{ with $content }}{{ printf "<content:encoded><![CDATA[%s]]></content:encoded>" . | safeHTML }}{{ end }}
     </item>
     {{ end }}
   </channel>
