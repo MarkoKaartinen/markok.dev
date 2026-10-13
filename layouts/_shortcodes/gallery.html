@@ -1,0 +1,56 @@
+{{- /* Image grid with a lightbox. Usage: {{< gallery cols=3 >}} ![alt](image.png) ... {{< /gallery >}} */ -}}
+<div class="gallery not-prose" data-gallery style="--gallery-cols: {{ .Get "cols" | default 2 }}">
+  {{- .Page.RenderString (dict "display" "block") .Inner -}}
+</div>
+{{- if not (.Page.Scratch.Get "gallery-assets") }}
+{{- .Page.Scratch.Set "gallery-assets" true }}
+<dialog class="gallery-lightbox" aria-label="Image viewer">
+  <button type="button" class="gallery-prev" aria-label="Previous image">&#8249;</button>
+  <img alt="" />
+  <button type="button" class="gallery-next" aria-label="Next image">&#8250;</button>
+  <button type="button" class="gallery-close" aria-label="Close">&times;</button>
+</dialog>
+<script>
+(function () {
+  var dialog = document.querySelector(".gallery-lightbox");
+  if (!dialog || !dialog.showModal) return;
+  var big = dialog.querySelector("img");
+  var items = [];
+  var index = 0;
+
+  function fullSrc(img) {
+    var best = img.currentSrc || img.src, bestW = 0;
+    (img.getAttribute("srcset") || "").split(",").forEach(function (part) {
+      var bits = part.trim().split(/\s+/);
+      var w = parseInt(bits[1], 10) || 0;
+      if (bits[0] && w > bestW) { bestW = w; best = bits[0]; }
+    });
+    return best;
+  }
+
+  function show(i) {
+    index = (i + items.length) % items.length;
+    big.src = fullSrc(items[index]);
+    big.alt = items[index].alt;
+  }
+
+  document.addEventListener("click", function (e) {
+    var img = e.target.closest && e.target.closest("[data-gallery] img");
+    if (!img) return;
+    var gallery = img.closest("[data-gallery]");
+    items = Array.prototype.slice.call(gallery.querySelectorAll("img"));
+    show(items.indexOf(img));
+    dialog.showModal();
+  });
+
+  dialog.querySelector(".gallery-prev").addEventListener("click", function (e) { e.stopPropagation(); show(index - 1); });
+  dialog.querySelector(".gallery-next").addEventListener("click", function (e) { e.stopPropagation(); show(index + 1); });
+  dialog.querySelector(".gallery-close").addEventListener("click", function () { dialog.close(); });
+  dialog.addEventListener("click", function (e) { if (e.target === dialog || e.target === big) dialog.close(); });
+  dialog.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowLeft") show(index - 1);
+    if (e.key === "ArrowRight") show(index + 1);
+  });
+})();
+</script>
+{{- end }}
